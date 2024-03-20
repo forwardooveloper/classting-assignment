@@ -25,7 +25,7 @@ export class StudentRepository implements StudentRepositoryInterface {
     dto: CreateSubscriptionDto,
   ): Promise<AffectResult> {
     await this.dynamodb.putItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Item: {
         PK: `STUDENT#${dto.id}`,
         SK: `SUBSCRIPTION#SCHOOL#${dto.schoolId}`,
@@ -39,7 +39,7 @@ export class StudentRepository implements StudentRepositoryInterface {
 
   public async getSchool(schoolId: string): Promise<GetSchoolResult> {
     const school = await this.dynamodb.getItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Key: {
         PK: `SCHOOL#${schoolId}`,
         SK: 'METADATA',
@@ -59,7 +59,7 @@ export class StudentRepository implements StudentRepositoryInterface {
     id: string,
   ): Promise<GetSubscriptionListResult[]> {
     const subscriptions = await this.dynamodb.queryItems({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       KeyConditionExpression: 'PK = :pk',
       ExpressionAttributeValues: {
         ':pk': `STUDENT#${id}`,
@@ -80,7 +80,7 @@ export class StudentRepository implements StudentRepositoryInterface {
     dto: DeleteSubscriptionDto,
   ): Promise<AffectResult> {
     await this.dynamodb.deleteItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Key: {
         PK: `STUDENT#${dto.id}`,
         SK: `SUBSCRIPTION#SCHOOL#${dto.schoolId}`,

@@ -28,7 +28,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
     const idPostfix = v4();
 
     await this.dynamodb.putItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Item: {
         PK: `SCHOOL#${idPostfix}`,
         SK: 'METADATA',
@@ -44,7 +44,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
   public async createNews(dto: CreateNewsDto): Promise<AffectResult> {
     const newsId = v4();
     await this.dynamodb.putItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Item: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${newsId}`,
@@ -62,7 +62,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
 
   public async updateNews(dto: UpdateNewsDto): Promise<AffectResult> {
     await this.dynamodb.updateItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Key: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${dto.newsId}`,
@@ -81,7 +81,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
 
   public async deleteNews(dto: DeleteNewsDto): Promise<AffectResult> {
     await this.dynamodb.deleteItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Key: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${dto.newsId}`,
@@ -93,7 +93,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
 
   public async getNews(dto: any): Promise<GetNewsResult> {
     const queryResult = await this.dynamodb.getItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Key: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${dto.newsId}`,
@@ -112,7 +112,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
 
   public async getSchool(id: string): Promise<GetSchoolResult> {
     const school = await this.dynamodb.getItem({
-      TableName: 'Classting',
+      TableName: 'Classting-v2',
       Key: {
         PK: `SCHOOL#${id}`,
         SK: 'METADATA',

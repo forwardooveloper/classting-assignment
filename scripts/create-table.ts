@@ -1,6 +1,7 @@
 import {
   BillingMode,
   CreateTableCommand,
+  CreateTableCommandInput,
   DynamoDBClient,
   KeyType,
   ResourceInUseException,
@@ -9,9 +10,9 @@ import {
   waitUntilTableExists,
 } from '@aws-sdk/client-dynamodb';
 
-const TableName = 'Classting';
+const TableName = 'Classting-v2';
 
-export const MessageTableCreateInput = {
+export const MessageTableCreateInput: CreateTableCommandInput = {
   AttributeDefinitions: [
     {
       AttributeName: 'PK',
@@ -20,6 +21,10 @@ export const MessageTableCreateInput = {
     {
       AttributeName: 'SK',
       AttributeType: ScalarAttributeType.S,
+    },
+    {
+      AttributeName: 'createdAt',
+      AttributeType: ScalarAttributeType.N,
     },
   ],
   TableName,
@@ -31,6 +36,18 @@ export const MessageTableCreateInput = {
     {
       AttributeName: 'SK',
       KeyType: KeyType.RANGE,
+    },
+  ],
+  GlobalSecondaryIndexes: [
+    {
+      IndexName: 'CreatedAtSort',
+      KeySchema: [
+        { AttributeName: 'PK', KeyType: KeyType.HASH },
+        { AttributeName: 'createdAt', KeyType: KeyType.RANGE },
+      ],
+      Projection: {
+        ProjectionType: 'ALL',
+      },
     },
   ],
   BillingMode: BillingMode.PAY_PER_REQUEST,
@@ -54,6 +71,7 @@ export const MessageTableCreateInput = {
     );
     console.log(`${TableName} create completed`);
   } catch (e) {
+    console.log(e);
     if (e instanceof ResourceInUseException) {
       console.log(`${TableName} already exists`);
     }
