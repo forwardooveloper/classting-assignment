@@ -9,6 +9,7 @@ import {
 } from './news.service.result';
 import { DATE_UTIL } from 'src/libs/date-util/symbol/date-util.symbol';
 import { DateUtilInterface } from 'src/libs/date-util/date-util.interface';
+import { AddNewsDto, ModifyNewsDto } from './news.service.dto';
 
 @Injectable()
 export class NewsService implements NewsServiceInterface {
@@ -17,12 +18,21 @@ export class NewsService implements NewsServiceInterface {
     @Inject(DATE_UTIL) private dateUtil: DateUtilInterface,
   ) {}
 
-  async addNews(dto: any): Promise<AddNewsResult> {
-    return await this.repository.createNews(dto);
+  async addNews(dto: AddNewsDto): Promise<AddNewsResult> {
+    return await this.repository.createNews({
+      title: dto.title,
+      content: dto.content,
+      createdAt: this.dateUtil.getNowTimestamp(),
+    });
   }
 
-  async modifyNews(dto: any): Promise<ModifyNewsResult> {
-    return await this.repository.updateNews(dto);
+  async modifyNews(dto: ModifyNewsDto): Promise<ModifyNewsResult> {
+    return await this.repository.updateNews({
+      id: dto.id,
+      title: dto.title,
+      content: dto.content,
+      updatedAt: this.dateUtil.getNowTimestamp(),
+    });
   }
 
   async removeNews(id: string): Promise<RemoveNewsResult> {

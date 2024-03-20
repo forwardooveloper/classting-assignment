@@ -21,7 +21,10 @@ export class Dynamodb implements DynamodbInterface {
   constructor() {}
 
   private getDynamodbClient(): DynamoDBClient {
-    return new DynamoDBClient({ region: 'ap-northeast-2' });
+    return new DynamoDBClient({
+      region: 'ap-northeast-2',
+      endpoint: 'http://localhost:8000',
+    });
   }
 
   async putItem(param: PutCommandInput): Promise<PutCommandOutput> {

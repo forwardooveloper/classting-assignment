@@ -12,19 +12,42 @@ export class NewsRepository implements NewsRepositoryInterface {
 
   async createNews(dto: CreateNewsDto): Promise<AffectResult> {
     const id = `NEWS#${v4()}`;
-    console.log(dto);
+
+    await this.dynamodb.putItem({
+      TableName: 'TestTable',
+      Item: {
+        PK: id,
+        SK: 'sortkey',
+        title: dto.title,
+        content: dto.content,
+      },
+    });
 
     return { affectedId: id };
   }
 
   async updateNews(dto: UpdateNewsDto): Promise<AffectResult> {
-    console.log(dto);
+    await this.dynamodb.putItem({
+      TableName: 'TestTable',
+      Item: {
+        PK: dto.id,
+        SK: 'sortkey',
+        title: dto.title,
+        content: dto.content,
+      },
+    });
 
     return { affectedId: dto.id };
   }
 
   async deleteNews(id: string): Promise<AffectResult> {
-    console.log(id);
+    await this.dynamodb.deleteItem({
+      TableName: 'TestTable',
+      Key: {
+        PK: id,
+        SK: 'sortkey',
+      },
+    });
 
     return { affectedId: id };
   }

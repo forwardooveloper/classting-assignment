@@ -16,6 +16,10 @@ export class SchoolService implements SchoolServiceInterface {
   ) {}
 
   async addSchool(dto: AddSchoolDto): Promise<AddSchoolResult> {
-    return await this.repository.createSchool(dto);
+    return await this.repository.createSchool({
+      name: dto.name,
+      region: dto.region,
+      createdAt: this.dateUtil.getNowTimestamp(),
+    });
   }
 }
