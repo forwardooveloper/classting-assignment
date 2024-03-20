@@ -1,4 +1,8 @@
-import { AffectResult } from './schoo.repository.result';
+import {
+  AffectResult,
+  GetNewsResult,
+  GetSchoolResult,
+} from './school.repository.result';
 import {
   CreateNewsDto,
   CreateSchoolDto,
@@ -16,5 +20,7 @@ export interface SchoolRepositoryInterface {
 
   deleteNews(dto: DeleteNewsDto): Promise<AffectResult>;
 
-  getNews(dto: GetNewsDto): Promise<any>;
+  getNews(dto: GetNewsDto): Promise<GetNewsResult>;
+
+  getSchool(id: string): Promise<GetSchoolResult>;
 }

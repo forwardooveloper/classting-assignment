@@ -30,6 +30,8 @@ export class SchoolService implements SchoolServiceInterface {
   }
 
   public async addNews(dto: AddNewsDto): Promise<AddNewsResult> {
+    await this.checkExistOfSchool(dto.id);
+
     return await this.repository.createNews({
       id: dto.id,
       title: dto.title,
@@ -57,11 +59,19 @@ export class SchoolService implements SchoolServiceInterface {
     });
   }
 
-  private async checkExistOfNews(id: string, newsId: string) {
+  private async checkExistOfNews(id: string, newsId: string): Promise<void> {
     const news = await this.repository.getNews({ id, newsId });
 
     if (!news) {
       throw new NotFoundException('News not found');
+    }
+  }
+
+  private async checkExistOfSchool(id: string): Promise<void> {
+    const school = await this.repository.getSchool(id);
+
+    if (!school) {
+      throw new NotFoundException('School not found');
     }
   }
 }

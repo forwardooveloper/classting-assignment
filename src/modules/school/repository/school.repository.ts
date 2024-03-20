@@ -6,7 +6,11 @@ import {
   DeleteNewsDto,
   UpdateNewsDto,
 } from './school.repository.dto';
-import { AffectResult, GetNewsResult } from './schoo.repository.result';
+import {
+  AffectResult,
+  GetNewsResult,
+  GetSchoolResult,
+} from './school.repository.result';
 import { v4 } from 'uuid';
 import { DYNAMODB } from 'src/libs/dynamodb/symbol/dynamodb-manager.symbol';
 import { Dynamodb } from 'src/libs/dynamodb/dynamodb';
@@ -20,7 +24,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
     @Inject(DATE_UTIL) private dateUtil: DateUtilInterface,
   ) {}
 
-  async createSchool(dto: CreateSchoolDto): Promise<AffectResult> {
+  public async createSchool(dto: CreateSchoolDto): Promise<AffectResult> {
     const idPostfix = v4();
 
     await this.dynamodb.putItem({
@@ -37,7 +41,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
     return { affectedId: idPostfix };
   }
 
-  async createNews(dto: CreateNewsDto): Promise<AffectResult> {
+  public async createNews(dto: CreateNewsDto): Promise<AffectResult> {
     const newsId = v4();
     await this.dynamodb.putItem({
       TableName: 'Classting',
@@ -56,7 +60,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
     return { affectedId: newsId };
   }
 
-  async updateNews(dto: UpdateNewsDto): Promise<AffectResult> {
+  public async updateNews(dto: UpdateNewsDto): Promise<AffectResult> {
     await this.dynamodb.updateItem({
       TableName: 'Classting',
       Key: {
@@ -75,7 +79,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
     return { affectedId: dto.newsId };
   }
 
-  async deleteNews(dto: DeleteNewsDto): Promise<AffectResult> {
+  public async deleteNews(dto: DeleteNewsDto): Promise<AffectResult> {
     await this.dynamodb.deleteItem({
       TableName: 'Classting',
       Key: {
@@ -87,7 +91,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
     return { affectedId: dto.newsId };
   }
 
-  async getNews(dto: any): Promise<GetNewsResult> {
+  public async getNews(dto: any): Promise<GetNewsResult> {
     const queryResult = await this.dynamodb.getItem({
       TableName: 'Classting',
       Key: {
@@ -102,6 +106,24 @@ export class SchoolRepository implements SchoolRepositoryInterface {
           newsId: dto.newsId,
           title: queryResult.Item.title,
           content: queryResult.Item.content,
+        }
+      : undefined;
+  }
+
+  public async getSchool(id: string): Promise<GetSchoolResult> {
+    const school = await this.dynamodb.getItem({
+      TableName: 'Classting',
+      Key: {
+        PK: `SCHOOL#${id}`,
+        SK: 'METADATA',
+      },
+    });
+
+    return school.Item
+      ? {
+          id,
+          name: school.Item.name,
+          region: school.Item.region,
         }
       : undefined;
   }

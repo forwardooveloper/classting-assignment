@@ -25,12 +25,12 @@ export class SchoolController implements SchoolControllerInterface {
   ) {}
 
   @Post()
-  postSchool(@Body() dto: PostSchoolDto): Promise<PostSchoolResult> {
+  public postSchool(@Body() dto: PostSchoolDto): Promise<PostSchoolResult> {
     return this.service.addSchool(dto);
   }
 
   @Post('/:id/news')
-  postNews(
+  public postNews(
     @Param() idDto: IdDto,
     @Body() dto: PostNewsDto,
   ): Promise<PostSchoolResult> {
@@ -42,7 +42,7 @@ export class SchoolController implements SchoolControllerInterface {
   }
 
   @Put('/:id/news/:newsId')
-  putNews(
+  public putNews(
     @Param() idSetDto: IdWithNewsIdDto,
     @Body() dto: PostNewsDto,
   ): Promise<PutNewsResult> {
@@ -55,7 +55,9 @@ export class SchoolController implements SchoolControllerInterface {
   }
 
   @Delete('/:id/news/:newsId')
-  deleteNews(@Param() idSetDto: IdWithNewsIdDto): Promise<PutNewsResult> {
+  public deleteNews(
+    @Param() idSetDto: IdWithNewsIdDto,
+  ): Promise<PutNewsResult> {
     return this.service.removeNews({
       id: idSetDto.id,
       newsId: idSetDto.newsId,
