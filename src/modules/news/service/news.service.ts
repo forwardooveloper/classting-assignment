@@ -7,11 +7,14 @@ import {
   ModifyNewsResult,
   RemoveNewsResult,
 } from './news.service.result';
+import { DATE_UTIL } from 'src/libs/date-util/symbol/date-util.symbol';
+import { DateUtilInterface } from 'src/libs/date-util/date-util.interface';
 
 @Injectable()
 export class NewsService implements NewsServiceInterface {
   constructor(
     @Inject(NEWS_REPOSITORY) private repository: NewsRepositoryInterface,
+    @Inject(DATE_UTIL) private dateUtil: DateUtilInterface,
   ) {}
 
   async addNews(dto: any): Promise<AddNewsResult> {

@@ -4,6 +4,9 @@ dependencies:
   '@aws-sdk/client-dynamodb':
     specifier: ^3.535.0
     version: 3.535.0
+  '@aws-sdk/lib-dynamodb':
+    specifier: ^3.535.0
+    version: 3.535.0(@aws-sdk/client-dynamodb@3.535.0)
   '@nestjs/common':
     specifier: ^10.0.0
     version: 10.0.0(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -19,6 +22,9 @@ dependencies:
   class-validator:
     specifier: ^0.14.1
     version: 0.14.1
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   reflect-metadata:
     specifier: ^0.1.13
     version: 0.1.13
@@ -529,6 +535,19 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@aws-sdk/lib-dynamodb@3.535.0(@aws-sdk/client-dynamodb@3.535.0):
+    resolution: {integrity: sha512-SJ3IcuN+BmwMv5ZlK04tCu/YhjqehdlYpQB+nK6h4Gvw7dfTTJua3p/OcWm5uDFvZvYi9SNAJFcepjZhxXdSNw==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      '@aws-sdk/client-dynamodb': ^3.0.0
+    dependencies:
+      '@aws-sdk/client-dynamodb': 3.535.0
+      '@aws-sdk/util-dynamodb': 3.535.0(@aws-sdk/client-dynamodb@3.535.0)
+      '@smithy/smithy-client': 2.5.0
+      '@smithy/types': 2.12.0
+      tslib: 2.6.2
+    dev: false
+
   /@aws-sdk/middleware-endpoint-discovery@3.535.0:
     resolution: {integrity: sha512-+EsqJB5A15RoTf0HxUdknF3hp+2WDg0HWc+QERUctzzYXy9l5LIQjmhQ96cWDyFttKmHE+4h6fjMZjJEeWOeYQ==}
     engines: {node: '>=14.0.0'}
@@ -613,6 +632,16 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@smithy/types': 2.12.0
+      tslib: 2.6.2
+    dev: false
+
+  /@aws-sdk/util-dynamodb@3.535.0(@aws-sdk/client-dynamodb@3.535.0):
+    resolution: {integrity: sha512-zHvmKRmAkJKFXzeTMifoooC2mS8jSRHBHSFxxscrZDgvZgo2g9ogIy52qz/3cWKI/ZQnrBSLhPpGYDZHrSgO8g==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      '@aws-sdk/client-dynamodb': ^3.0.0
+    dependencies:
+      '@aws-sdk/client-dynamodb': 3.535.0
       tslib: 2.6.2
     dev: false
 
@@ -3020,6 +3049,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+    dev: false
 
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
