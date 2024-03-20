@@ -13,6 +13,9 @@ import {
   DeleteCommandOutput,
   QueryCommandInput,
   QueryCommandOutput,
+  UpdateCommand,
+  UpdateCommandInput,
+  UpdateCommandOutput,
 } from '@aws-sdk/lib-dynamodb';
 import { DynamodbInterface } from './dynamodb.interface';
 
@@ -31,6 +34,12 @@ export class Dynamodb implements DynamodbInterface {
     const client = this.getDynamodbClient();
 
     return await client.send(new PutCommand(param));
+  }
+
+  async updateItem(param: UpdateCommandInput): Promise<UpdateCommandOutput> {
+    const client = this.getDynamodbClient();
+
+    return await client.send(new UpdateCommand(param));
   }
 
   async getItem(param: GetCommandInput): Promise<GetCommandOutput> {

@@ -15,21 +15,17 @@ import {
   ModifyNewsResult,
   RemoveNewsResult,
 } from './school.service.result';
-import { DATE_UTIL } from 'src/libs/date-util/symbol/date-util.symbol';
-import { DateUtilInterface } from 'src/libs/date-util/date-util.interface';
 
 @Injectable()
 export class SchoolService implements SchoolServiceInterface {
   constructor(
     @Inject(SCHOOL_REPOSITORY) private repository: SchoolRepositoryInterface,
-    @Inject(DATE_UTIL) private dateUtil: DateUtilInterface,
   ) {}
 
   public async addSchool(dto: AddSchoolDto): Promise<AddSchoolResult> {
     return await this.repository.createSchool({
       name: dto.name,
       region: dto.region,
-      createdAt: this.dateUtil.getNowTimestamp(),
     });
   }
 
@@ -38,7 +34,6 @@ export class SchoolService implements SchoolServiceInterface {
       id: dto.id,
       title: dto.title,
       content: dto.content,
-      createdAt: this.dateUtil.getNowTimestamp(),
     });
   }
 
@@ -50,7 +45,6 @@ export class SchoolService implements SchoolServiceInterface {
       newsId: dto.newsId,
       title: dto.title,
       content: dto.content,
-      updatedAt: this.dateUtil.getNowTimestamp(),
     });
   }
 

@@ -9,7 +9,7 @@ import {
   waitUntilTableExists,
 } from '@aws-sdk/client-dynamodb';
 
-const TableName = 'TestTable';
+const TableName = 'Classting';
 
 export const MessageTableCreateInput = {
   AttributeDefinitions: [

@@ -1,14 +1,12 @@
 export type CreateSchoolDto = {
   name: string;
   region: string;
-  createdAt: number;
 };
 
 export type CreateNewsDto = {
   id: string;
   title: string;
   content: string;
-  createdAt: number;
 };
 
 export type UpdateNewsDto = {
@@ -16,7 +14,6 @@ export type UpdateNewsDto = {
   newsId: string;
   title: string;
   content: string;
-  updatedAt: number;
 };
 
 export type DeleteNewsDto = {
