@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { SchoolServiceInterface } from './school.service.interface';
 import {
@@ -25,7 +25,7 @@ export class SchoolService implements SchoolServiceInterface {
     @Inject(DATE_UTIL) private dateUtil: DateUtilInterface,
   ) {}
 
-  async addSchool(dto: AddSchoolDto): Promise<AddSchoolResult> {
+  public async addSchool(dto: AddSchoolDto): Promise<AddSchoolResult> {
     return await this.repository.createSchool({
       name: dto.name,
       region: dto.region,
@@ -33,7 +33,7 @@ export class SchoolService implements SchoolServiceInterface {
     });
   }
 
-  async addNews(dto: AddNewsDto): Promise<AddNewsResult> {
+  public async addNews(dto: AddNewsDto): Promise<AddNewsResult> {
     return await this.repository.createNews({
       id: dto.id,
       title: dto.title,
@@ -42,7 +42,9 @@ export class SchoolService implements SchoolServiceInterface {
     });
   }
 
-  async modifyNews(dto: ModifyNewsDto): Promise<ModifyNewsResult> {
+  public async modifyNews(dto: ModifyNewsDto): Promise<ModifyNewsResult> {
+    await this.checkExistOfNews(dto.id, dto.newsId);
+
     return await this.repository.updateNews({
       id: dto.id,
       newsId: dto.newsId,
@@ -52,10 +54,20 @@ export class SchoolService implements SchoolServiceInterface {
     });
   }
 
-  async removeNews(dto: DeleteNewsDto): Promise<RemoveNewsResult> {
+  public async removeNews(dto: DeleteNewsDto): Promise<RemoveNewsResult> {
+    await this.checkExistOfNews(dto.id, dto.newsId);
+
     return await this.repository.deleteNews({
       id: dto.id,
       newsId: dto.newsId,
     });
+  }
+
+  private async checkExistOfNews(id: string, newsId: string) {
+    const news = await this.repository.getNews({ id, newsId });
+
+    if (!news) {
+      throw new NotFoundException('News not found');
+    }
   }
 }

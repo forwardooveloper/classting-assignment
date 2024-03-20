@@ -23,3 +23,8 @@ export type DeleteNewsDto = {
   id: string;
   newsId: string;
 };
+
+export type GetNewsDto = {
+  id: string;
+  newsId: string;
+};

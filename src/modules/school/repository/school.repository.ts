@@ -6,7 +6,7 @@ import {
   DeleteNewsDto,
   UpdateNewsDto,
 } from './school.repository.dto';
-import { AffectResult } from './schoo.repository.result';
+import { AffectResult, GetNewsResult } from './schoo.repository.result';
 import { v4 } from 'uuid';
 import { DYNAMODB } from 'src/libs/dynamodb/symbol/dynamodb-manager.symbol';
 import { Dynamodb } from 'src/libs/dynamodb/dynamodb';
@@ -71,5 +71,24 @@ export class SchoolRepository implements SchoolRepositoryInterface {
     });
 
     return { affectedId: dto.newsId };
+  }
+
+  async getNews(dto: any): Promise<GetNewsResult> {
+    const queryResult = await this.dynamodb.getItem({
+      TableName: 'TestTable',
+      Key: {
+        PK: `NEWS#${dto.newsId}`,
+        SK: `SCHOOL#${dto.id}#sortkey`,
+      },
+    });
+
+    return queryResult.Item
+      ? {
+          id: dto.id,
+          newsId: dto.newsId,
+          title: queryResult.Item.title,
+          content: queryResult.Item.content,
+        }
+      : undefined;
   }
 }

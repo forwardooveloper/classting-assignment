@@ -3,6 +3,7 @@ import {
   CreateNewsDto,
   CreateSchoolDto,
   DeleteNewsDto,
+  GetNewsDto,
   UpdateNewsDto,
 } from './school.repository.dto';
 
@@ -14,4 +15,6 @@ export interface SchoolRepositoryInterface {
   updateNews(dto: UpdateNewsDto): Promise<AffectResult>;
 
   deleteNews(dto: DeleteNewsDto): Promise<AffectResult>;
+
+  getNews(dto: GetNewsDto): Promise<any>;
 }
