@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
 
 import { SchoolServiceInterface } from './school.service.interface';
 import { AddSchoolDto } from './school.service.dto';
@@ -14,10 +13,6 @@ export class SchoolService implements SchoolServiceInterface {
   ) {}
 
   async addSchool(dto: AddSchoolDto): Promise<AddSchoolResult> {
-    const id = `SCHOOL#${v4()}`;
-
-    await this.repository.createSchool({ id, ...dto });
-
-    return { id };
+    return await this.repository.createSchool(dto);
   }
 }

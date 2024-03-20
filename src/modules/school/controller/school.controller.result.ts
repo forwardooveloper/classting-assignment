@@ -1,3 +1,3 @@
 export type PostSchoolResult = {
-  id: string;
+  affectedId: string;
 };
