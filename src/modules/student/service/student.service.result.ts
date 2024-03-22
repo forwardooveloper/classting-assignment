@@ -20,3 +20,16 @@ export type FindSubscriptionListResult = {
 export type DeleteSubscriptionResult = {
   affectedId: string;
 };
+
+export type FindSchoolWithNewsListResult = {
+  school: {
+    id: string;
+    name: string;
+    region: string;
+  };
+  newsList: {
+    id: string;
+    title: string;
+    content: string;
+  }[];
+};

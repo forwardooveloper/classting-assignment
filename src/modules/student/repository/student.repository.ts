@@ -12,6 +12,7 @@ import {
   AffectResult,
   GetSchoolResult,
   GetSubscriptionListResult,
+  GetSchoolWithNewsResult,
 } from './student.repository.result';
 
 @Injectable()
@@ -88,5 +89,43 @@ export class StudentRepository implements StudentRepositoryInterface {
     });
 
     return { affectedId: dto.id };
+  }
+
+  public async getNewsListBySchoolId(
+    schoolId: string,
+  ): Promise<GetSchoolWithNewsResult> {
+    const schoolWithNewsList = await this.dynamodb.queryItems({
+      TableName: 'Classting-v2',
+      IndexName: 'CreatedAtSort',
+      KeyConditionExpression: 'PK = :pk',
+      ExpressionAttributeValues: {
+        ':pk': `SCHOOL#${schoolId}`,
+      },
+      ScanIndexForward: false,
+    });
+
+    if (!schoolWithNewsList.Items) return undefined;
+
+    const schoolMetadata = schoolWithNewsList.Items.find(
+      (item) => item.SK === 'METADATA',
+    );
+
+    const newsList = schoolWithNewsList.Items.filter(
+      (item) => item.SK !== 'METADATA',
+    );
+
+    return {
+      school: {
+        id: schoolId,
+        name: schoolMetadata.name,
+        region: schoolMetadata.region,
+      },
+      newsList: newsList.map((news) => ({
+        id: news.SK.replace('NEWS#', ''),
+        title: news.title,
+        content: news.content,
+        createdAt: news.createdAt,
+      })),
+    };
   }
 }

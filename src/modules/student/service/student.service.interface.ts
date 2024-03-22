@@ -5,6 +5,7 @@ import {
 import {
   AddSubscriptionResult,
   DeleteSubscriptionResult,
+  FindSchoolWithNewsListResult,
   FindSubscriptionListResult,
 } from './student.service.result';
 
@@ -14,4 +15,7 @@ export interface StudentServiceInterface {
   deleteSubscription(
     dto: DeleteSubscriptionDto,
   ): Promise<DeleteSubscriptionResult>;
+  findSchoolWithNewsList(
+    schoolId: string,
+  ): Promise<FindSchoolWithNewsListResult>;
 }

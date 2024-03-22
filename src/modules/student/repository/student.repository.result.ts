@@ -14,3 +14,16 @@ export type GetSubscriptionListResult = {
   schoolName: string;
   schoolRegion: string;
 };
+
+export type GetSchoolWithNewsResult = {
+  school: {
+    id: string;
+    name: string;
+    region: string;
+  };
+  newsList: {
+    id: string;
+    title: string;
+    content: string;
+  }[];
+};

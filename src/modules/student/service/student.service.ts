@@ -9,6 +9,7 @@ import {
 import {
   AddSubscriptionResult,
   DeleteSubscriptionResult,
+  FindSchoolWithNewsListResult,
   FindSubscriptionListResult,
   GetSchoolResult,
 } from './student.service.result';
@@ -56,6 +57,12 @@ export class StudentService implements StudentServiceInterface {
       id: dto.id,
       schoolId: dto.schoolId,
     });
+  }
+
+  public async findSchoolWithNewsList(
+    schoolId: string,
+  ): Promise<FindSchoolWithNewsListResult> {
+    return await this.repository.getNewsListBySchoolId(schoolId);
   }
 
   private async getSchoolWithCheckExist(
