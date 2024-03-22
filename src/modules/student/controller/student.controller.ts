@@ -3,6 +3,7 @@ import { StudentControllerInterface } from './student.controller.interface';
 import {
   GetSchoolWithNewsListDto,
   GetSubscriptionListDto,
+  IdDto,
   PostSubscriptionDto,
 } from './student.controller.dto';
 import { STUDENT_SERVICE } from '../symbol/student.symbol';
@@ -33,7 +34,12 @@ export class StudentController implements StudentControllerInterface {
     return this.service.findSubscriptionList(dto.id);
   }
 
-  @Get(':id/school/:schoolId/news')
+  @Get(':id/school/all/news/list')
+  public getAllSchoolWithNewsList(@Param() dto: IdDto) {
+    return this.service.findAllSubscriptionSchoolWithNewsList(dto.id);
+  }
+
+  @Get(':id/school/:schoolId/news/list')
   public getSchoolWithNewsList(
     @Param() dto: GetSchoolWithNewsListDto,
   ): Promise<GetSchoolWithNewsListResult> {

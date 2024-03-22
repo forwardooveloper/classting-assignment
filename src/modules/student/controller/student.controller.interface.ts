@@ -1,6 +1,7 @@
 import {
   GetSchoolWithNewsListDto,
   GetSubscriptionListDto,
+  IdDto,
   PostSubscriptionDto,
 } from './student.controller.dto';
 import {
@@ -17,4 +18,5 @@ export interface StudentControllerInterface {
   getSchoolWithNewsList(
     dto: GetSchoolWithNewsListDto,
   ): Promise<GetSchoolWithNewsListResult>;
+  getAllSchoolWithNewsList(dto: IdDto): Promise<GetSchoolWithNewsListResult[]>;
 }

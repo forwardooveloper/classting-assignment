@@ -12,7 +12,7 @@ import {
   AffectResult,
   GetSchoolResult,
   GetSubscriptionListResult,
-  GetSchoolWithNewsResult,
+  GetSchoolWithNewsListResult,
 } from './student.repository.result';
 
 @Injectable()
@@ -91,9 +91,9 @@ export class StudentRepository implements StudentRepositoryInterface {
     return { affectedId: dto.id };
   }
 
-  public async getNewsListBySchoolId(
+  public async getSchoolWithNewsList(
     schoolId: string,
-  ): Promise<GetSchoolWithNewsResult> {
+  ): Promise<GetSchoolWithNewsListResult> {
     const schoolWithNewsList = await this.dynamodb.queryItems({
       TableName: 'Classting-v2',
       IndexName: 'CreatedAtSort',

@@ -62,7 +62,29 @@ export class StudentService implements StudentServiceInterface {
   public async findSchoolWithNewsList(
     schoolId: string,
   ): Promise<FindSchoolWithNewsListResult> {
-    return await this.repository.getNewsListBySchoolId(schoolId);
+    return await this.repository.getSchoolWithNewsList(schoolId);
+  }
+
+  public async findAllSubscriptionSchoolWithNewsList(
+    id: string,
+  ): Promise<FindSchoolWithNewsListResult[]> {
+    const subscriptionList = await this.repository.getSubscriptionList(id);
+
+    if (!subscriptionList.length) {
+      return [];
+    }
+
+    const schoolIds = subscriptionList.map(
+      (subscription) => subscription.schoolId,
+    );
+
+    const allSchoolNewsList = await Promise.all(
+      schoolIds.map((schoolId) =>
+        this.repository.getSchoolWithNewsList(schoolId),
+      ),
+    );
+
+    return allSchoolNewsList;
   }
 
   private async getSchoolWithCheckExist(

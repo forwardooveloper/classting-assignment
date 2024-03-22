@@ -18,4 +18,7 @@ export interface StudentServiceInterface {
   findSchoolWithNewsList(
     schoolId: string,
   ): Promise<FindSchoolWithNewsListResult>;
+  findAllSubscriptionSchoolWithNewsList(
+    id: string,
+  ): Promise<FindSchoolWithNewsListResult[]>;
 }
