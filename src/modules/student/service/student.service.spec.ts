@@ -261,4 +261,82 @@ describe('StudentService Unit Test', () => {
       });
     });
   });
+
+  describe('findAllSubscriptionSchoolWithNewsList', () => {
+    const id = 'student id';
+
+    it('findAllSubscriptionSchoolWithNewsList가 정의되어 있어야만 한다.', () => {
+      expect(
+        studentService.findAllSubscriptionSchoolWithNewsList,
+      ).toBeDefined();
+    });
+
+    it('findAllSubscriptionSchoolWithNewsList이 호출되면 repository의 getSubscriptionList가 알맞는 인자값과 함께 호출되어야 한다.', async () => {
+      const getSubscriptionListSpy = jest
+        .spyOn(studentRepository, 'getSubscriptionList')
+        .mockResolvedValue([]);
+
+      await studentService.findAllSubscriptionSchoolWithNewsList(id);
+
+      expect(getSubscriptionListSpy).toBeCalledWith(id);
+    });
+
+    it('findAllSubscriptionSchoolWithNewsList이 호출됐을 때 subscriptionList가 없다면 빈 배열을 반환해야만 한다.', async () => {
+      jest
+        .spyOn(studentRepository, 'getSubscriptionList')
+        .mockResolvedValueOnce([]);
+
+      const result = await studentService.findAllSubscriptionSchoolWithNewsList(
+        id,
+      );
+
+      expect(result).toBeInstanceOf(Array);
+      expect(result).toHaveLength(0);
+    });
+
+    it('findAllSubscriptionSchoolWithNewsList이 호출되면 FindSchoolWithNewsListResult[]를 반환해야만 한다.', async () => {
+      jest
+        .spyOn(studentRepository, 'getSubscriptionList')
+        .mockResolvedValueOnce([
+          {
+            id: 'id',
+            schoolId: 'school id',
+            schoolName: 'school name',
+            schoolRegion: 'school region',
+          },
+        ]);
+
+      const repositoryResult = {
+        school: { id: 'id', name: 'name', region: 'region' },
+        newsList: [{ id: 'id', title: 'title', content: 'content' }],
+      };
+
+      jest
+        .spyOn(studentRepository, 'getSchoolWithNewsList')
+        .mockResolvedValueOnce(repositoryResult);
+
+      const result = await studentService.findAllSubscriptionSchoolWithNewsList(
+        id,
+      );
+
+      expect(result).toBeInstanceOf(Array);
+
+      result.forEach((schoolWithNews) => {
+        expect(schoolWithNews).toHaveProperty('school');
+        expect(schoolWithNews).toHaveProperty('newsList');
+
+        const school = schoolWithNews.school;
+        expect(school).toHaveProperty('id');
+        expect(school).toHaveProperty('name');
+        expect(school).toHaveProperty('region');
+
+        const newsList = schoolWithNews.newsList;
+        newsList.forEach((news) => {
+          expect(news).toHaveProperty('id');
+          expect(news).toHaveProperty('title');
+          expect(news).toHaveProperty('content');
+        });
+      });
+    });
+  });
 });

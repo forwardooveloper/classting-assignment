@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.test' });
+
 import request, { Response } from 'supertest';
 
 import { INestApplication } from '@nestjs/common';

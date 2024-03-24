@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import {
   BillingMode,
   CreateTableCommand,
@@ -12,51 +10,55 @@ import {
   waitUntilTableExists,
 } from '@aws-sdk/client-dynamodb';
 
-const TableName = process.env.DYNAMODB_TABLE_NAME ?? 'Classting';
-
-export const MessageTableCreateInput: CreateTableCommandInput = {
-  AttributeDefinitions: [
-    {
-      AttributeName: 'PK',
-      AttributeType: ScalarAttributeType.S,
-    },
-    {
-      AttributeName: 'SK',
-      AttributeType: ScalarAttributeType.S,
-    },
-    {
-      AttributeName: 'createdAt',
-      AttributeType: ScalarAttributeType.N,
-    },
-  ],
-  TableName,
-  KeySchema: [
-    {
-      AttributeName: 'PK',
-      KeyType: KeyType.HASH,
-    },
-    {
-      AttributeName: 'SK',
-      KeyType: KeyType.RANGE,
-    },
-  ],
-  GlobalSecondaryIndexes: [
-    {
-      IndexName: 'CreatedAtSort',
-      KeySchema: [
-        { AttributeName: 'PK', KeyType: KeyType.HASH },
-        { AttributeName: 'createdAt', KeyType: KeyType.RANGE },
-      ],
-      Projection: {
-        ProjectionType: 'ALL',
-      },
-    },
-  ],
-  BillingMode: BillingMode.PAY_PER_REQUEST,
-  TableClass: TableClass.STANDARD,
-};
-
 (async () => {
+  const TableName = process.env.DYNAMODB_TABLE_NAME;
+  if (!TableName) {
+    console.error('table name is require');
+    process.exit(1);
+  }
+
+  const MessageTableCreateInput: CreateTableCommandInput = {
+    AttributeDefinitions: [
+      {
+        AttributeName: 'PK',
+        AttributeType: ScalarAttributeType.S,
+      },
+      {
+        AttributeName: 'SK',
+        AttributeType: ScalarAttributeType.S,
+      },
+      {
+        AttributeName: 'createdAt',
+        AttributeType: ScalarAttributeType.N,
+      },
+    ],
+    TableName,
+    KeySchema: [
+      {
+        AttributeName: 'PK',
+        KeyType: KeyType.HASH,
+      },
+      {
+        AttributeName: 'SK',
+        KeyType: KeyType.RANGE,
+      },
+    ],
+    GlobalSecondaryIndexes: [
+      {
+        IndexName: 'CreatedAtSort',
+        KeySchema: [
+          { AttributeName: 'PK', KeyType: KeyType.HASH },
+          { AttributeName: 'createdAt', KeyType: KeyType.RANGE },
+        ],
+        Projection: {
+          ProjectionType: 'ALL',
+        },
+      },
+    ],
+    BillingMode: BillingMode.PAY_PER_REQUEST,
+    TableClass: TableClass.STANDARD,
+  };
+
   const client = new DynamoDBClient({
     region: 'ap-northeast-2',
     endpoint: process.env.DYNAMODB_ENDPOINT_URL ?? 'http://localhost:8000',

@@ -7,19 +7,16 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "run:dynamodb": "docker compose up -d",
+    "stop:dynamodb": "docker compose down",
+    "create:table:local": "cross-env DYNAMODB_TABLE_NAME=Classting ts-node ./scripts/create-table.ts",
+    "delete:table:local": "cross-env DYNAMODB_TABLE_NAME=Classting ts-node ./scripts/delete-table.ts",
     "test:unit": "jest --testPathPattern=\".*\\.spec\\.ts\"",
-    "test:integration": "jest --testPathPattern=\".*\\.integration\\.test\\.ts\"",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:unit:coverage": "jest --testPathPattern=\".*\\.spec\\.ts\" --coverage",
+    "test:integration": "sh ./integration-test.sh"
+    
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.535.0",
@@ -48,6 +45,7 @@
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -76,7 +74,7 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "./src/**/*.*.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
