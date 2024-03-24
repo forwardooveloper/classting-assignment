@@ -5,8 +5,8 @@ import { SchoolRepository } from './repository/school.repository';
 import { SchoolService } from './service/school.service';
 import { Dynamodb } from '../../libs/dynamodb/dynamodb';
 import { DYNAMODB } from '../../libs/dynamodb/symbol/dynamodb-manager.symbol';
-import { DATE_UTIL } from 'src/libs/date-util/symbol/date-util.symbol';
-import { DateUtil } from 'src/libs/date-util/date-util';
+import { DATE_UTIL } from '../../libs/date-util/symbol/date-util.symbol';
+import { DateUtil } from '../../libs/date-util/date-util';
 
 @Module({
   controllers: [SchoolController],

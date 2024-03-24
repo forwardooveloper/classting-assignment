@@ -3,10 +3,10 @@ import { StudentController } from './controller/student.controller';
 import { STUDENT_REPOSITORY, STUDENT_SERVICE } from './symbol/student.symbol';
 import { StudentService } from './service/student.service';
 import { StudentRepository } from './repository/student.repository';
-import { DYNAMODB } from 'src/libs/dynamodb/symbol/dynamodb-manager.symbol';
-import { Dynamodb } from 'src/libs/dynamodb/dynamodb';
-import { DATE_UTIL } from 'src/libs/date-util/symbol/date-util.symbol';
-import { DateUtil } from 'src/libs/date-util/date-util';
+import { DYNAMODB } from '../../libs/dynamodb/symbol/dynamodb-manager.symbol';
+import { Dynamodb } from '../../libs/dynamodb/dynamodb';
+import { DATE_UTIL } from '../../libs/date-util/symbol/date-util.symbol';
+import { DateUtil } from '../../libs/date-util/date-util';
 
 @Module({
   controllers: [StudentController],
