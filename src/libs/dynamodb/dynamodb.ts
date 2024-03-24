@@ -18,15 +18,16 @@ import {
   UpdateCommandOutput,
 } from '@aws-sdk/lib-dynamodb';
 import { DynamodbInterface } from './dynamodb.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class Dynamodb implements DynamodbInterface {
-  constructor() {}
+  constructor(private configService: ConfigService) {}
 
   private getDynamodbClient(): DynamoDBClient {
     return new DynamoDBClient({
-      region: 'ap-northeast-2',
-      endpoint: 'http://localhost:8000',
+      region: this.configService.get<string>('dynamodb.region'),
+      endpoint: this.configService.get<string>('dynamodb.endpoint'),
     });
   }
 

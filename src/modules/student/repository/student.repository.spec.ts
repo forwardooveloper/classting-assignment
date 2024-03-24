@@ -6,13 +6,22 @@ import { DynamodbInterface } from 'src/libs/dynamodb/dynamodb.interface';
 import { StudentRepositoryInterface } from './student.repository.interface';
 import { STUDENT_REPOSITORY } from '../symbol/student.symbol';
 import { StudentRepository } from './student.repository';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import configuration from '../../../config/configuration';
 
 describe('StudentRepository Unit Test', () => {
   let studentRepository: StudentRepositoryInterface;
   let dynamodb: DynamodbInterface;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          load: [configuration],
+          isGlobal: true,
+        }),
+      ],
       providers: [
         {
           provide: STUDENT_REPOSITORY,
@@ -38,6 +47,7 @@ describe('StudentRepository Unit Test', () => {
     studentRepository =
       moduleFixture.get<StudentRepositoryInterface>(STUDENT_REPOSITORY);
     dynamodb = moduleFixture.get<DynamodbInterface>(DYNAMODB);
+    configService = moduleFixture.get<ConfigService>(ConfigService);
   });
 
   it('repository가 정의되어 있어야만 한다.', () => {
@@ -65,12 +75,13 @@ describe('StudentRepository Unit Test', () => {
       });
 
       expect(putItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Item: {
           PK: `STUDENT#${id}`,
           SK: `SUBSCRIPTION#SCHOOL#${schoolId}`,
           schoolName,
           schoolRegion,
+          createdAt: expect.any(Number),
         },
       });
     });
@@ -106,7 +117,7 @@ describe('StudentRepository Unit Test', () => {
       await studentRepository.getSchool(schoolId);
 
       expect(getItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Key: {
           PK: `SCHOOL#${schoolId}`,
           SK: 'METADATA',
@@ -155,7 +166,7 @@ describe('StudentRepository Unit Test', () => {
       await studentRepository.getSubscriptionList(id);
 
       expect(querySpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         KeyConditionExpression: 'PK = :pk',
         ExpressionAttributeValues: {
           ':pk': `STUDENT#${id}`,
@@ -211,7 +222,7 @@ describe('StudentRepository Unit Test', () => {
       await studentRepository.deleteSubscription({ id, schoolId });
 
       expect(deleteItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Key: {
           PK: `STUDENT#${id}`,
           SK: `SUBSCRIPTION#SCHOOL#${schoolId}`,
@@ -244,7 +255,7 @@ describe('StudentRepository Unit Test', () => {
       await studentRepository.getSchoolWithNewsList(schoolId);
 
       expect(querySpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         IndexName: 'CreatedAtSort',
         KeyConditionExpression: 'PK = :pk',
         ExpressionAttributeValues: {

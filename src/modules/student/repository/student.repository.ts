@@ -14,24 +14,27 @@ import {
   GetSubscriptionListResult,
   GetSchoolWithNewsListResult,
 } from './student.repository.result';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class StudentRepository implements StudentRepositoryInterface {
   constructor(
     @Inject(DYNAMODB) private dynamodb: DynamodbInterface,
     @Inject(DATE_UTIL) private dateUtil: DateUtilInterface,
+    private configService: ConfigService,
   ) {}
 
   public async createSubscription(
     dto: CreateSubscriptionDto,
   ): Promise<AffectResult> {
     await this.dynamodb.putItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Item: {
         PK: `STUDENT#${dto.id}`,
         SK: `SUBSCRIPTION#SCHOOL#${dto.schoolId}`,
         schoolName: dto.schoolName,
         schoolRegion: dto.schoolRegion,
+        createdAt: this.dateUtil.getNowTimestamp(),
       },
     });
 
@@ -40,7 +43,7 @@ export class StudentRepository implements StudentRepositoryInterface {
 
   public async getSchool(schoolId: string): Promise<GetSchoolResult> {
     const school = await this.dynamodb.getItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Key: {
         PK: `SCHOOL#${schoolId}`,
         SK: 'METADATA',
@@ -60,7 +63,7 @@ export class StudentRepository implements StudentRepositoryInterface {
     id: string,
   ): Promise<GetSubscriptionListResult[]> {
     const subscriptions = await this.dynamodb.query({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       KeyConditionExpression: 'PK = :pk',
       ExpressionAttributeValues: {
         ':pk': `STUDENT#${id}`,
@@ -81,7 +84,7 @@ export class StudentRepository implements StudentRepositoryInterface {
     dto: DeleteSubscriptionDto,
   ): Promise<AffectResult> {
     await this.dynamodb.deleteItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Key: {
         PK: `STUDENT#${dto.id}`,
         SK: `SUBSCRIPTION#SCHOOL#${dto.schoolId}`,
@@ -95,7 +98,7 @@ export class StudentRepository implements StudentRepositoryInterface {
     schoolId: string,
   ): Promise<GetSchoolWithNewsListResult> {
     const schoolWithNewsList = await this.dynamodb.query({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       IndexName: 'CreatedAtSort',
       KeyConditionExpression: 'PK = :pk',
       ExpressionAttributeValues: {

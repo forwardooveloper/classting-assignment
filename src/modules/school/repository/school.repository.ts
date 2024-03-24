@@ -16,19 +16,21 @@ import { DYNAMODB } from '../../../libs/dynamodb/symbol/dynamodb-manager.symbol'
 import { Dynamodb } from '../../../libs/dynamodb/dynamodb';
 import { DATE_UTIL } from '../../../libs/date-util/symbol/date-util.symbol';
 import { DateUtilInterface } from '../../../libs/date-util/date-util.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SchoolRepository implements SchoolRepositoryInterface {
   constructor(
     @Inject(DYNAMODB) private dynamodb: Dynamodb,
     @Inject(DATE_UTIL) private dateUtil: DateUtilInterface,
+    private configService: ConfigService,
   ) {}
 
   public async createSchool(dto: CreateSchoolDto): Promise<AffectResult> {
     const idPostfix = v4();
 
     await this.dynamodb.putItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Item: {
         PK: `SCHOOL#${idPostfix}`,
         SK: 'METADATA',
@@ -44,7 +46,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
   public async createNews(dto: CreateNewsDto): Promise<AffectResult> {
     const newsId = v4();
     await this.dynamodb.putItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Item: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${newsId}`,
@@ -60,7 +62,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
 
   public async updateNews(dto: UpdateNewsDto): Promise<AffectResult> {
     await this.dynamodb.updateItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Key: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${dto.newsId}`,
@@ -79,7 +81,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
 
   public async deleteNews(dto: DeleteNewsDto): Promise<AffectResult> {
     await this.dynamodb.deleteItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Key: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${dto.newsId}`,
@@ -91,7 +93,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
 
   public async getNews(dto: any): Promise<GetNewsResult> {
     const queryResult = await this.dynamodb.getItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Key: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${dto.newsId}`,
@@ -110,7 +112,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
 
   public async getSchool(id: string): Promise<GetSchoolResult> {
     const school = await this.dynamodb.getItem({
-      TableName: 'Classting-v2',
+      TableName: this.configService.get<string>('dynamodb.tableName'),
       Key: {
         PK: `SCHOOL#${id}`,
         SK: 'METADATA',

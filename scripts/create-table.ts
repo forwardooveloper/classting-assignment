@@ -1,16 +1,18 @@
+import 'dotenv/config';
+
 import {
   BillingMode,
   CreateTableCommand,
   CreateTableCommandInput,
+  DescribeTableCommand,
   DynamoDBClient,
   KeyType,
-  ResourceInUseException,
   ScalarAttributeType,
   TableClass,
   waitUntilTableExists,
 } from '@aws-sdk/client-dynamodb';
 
-const TableName = 'Classting-v2';
+const TableName = process.env.DYNAMODB_TABLE_NAME ?? 'Classting';
 
 export const MessageTableCreateInput: CreateTableCommandInput = {
   AttributeDefinitions: [
@@ -57,11 +59,21 @@ export const MessageTableCreateInput: CreateTableCommandInput = {
 (async () => {
   const client = new DynamoDBClient({
     region: 'ap-northeast-2',
-    endpoint: 'http://localhost:8000',
+    endpoint: process.env.DYNAMODB_ENDPOINT_URL ?? 'http://localhost:8000',
   });
+
+  try {
+    await client.send(new DescribeTableCommand({ TableName }));
+    console.log('Table already exists');
+    return;
+  } catch (error) {
+    console.log('No tables created. Table creation progress..');
+  }
+
   try {
     await client.send(new CreateTableCommand(MessageTableCreateInput));
     console.log(`${TableName} creating...`);
+
     await waitUntilTableExists(
       {
         client,
@@ -71,9 +83,6 @@ export const MessageTableCreateInput: CreateTableCommandInput = {
     );
     console.log(`${TableName} create completed`);
   } catch (e) {
-    console.log(e);
-    if (e instanceof ResourceInUseException) {
-      console.log(`${TableName} already exists`);
-    }
+    console.log('create table failed', e);
   }
 })();

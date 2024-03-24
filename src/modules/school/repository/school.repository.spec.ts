@@ -1,18 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SCHOOL_REPOSITORY } from '../symbol/school.symbol';
 import { SchoolRepository } from './school.repository';
 import { DATE_UTIL } from '../../../libs/date-util/symbol/date-util.symbol';
 import { DateUtil } from '../../../libs/date-util/date-util';
 import { DYNAMODB } from '../../../libs/dynamodb/symbol/dynamodb-manager.symbol';
-import { DynamodbInterface } from 'src/libs/dynamodb/dynamodb.interface';
+import { DynamodbInterface } from '../../../libs/dynamodb/dynamodb.interface';
 import { SchoolRepositoryInterface } from './school.repository.interface';
+import configuration from '../../../config/configuration';
 
 describe('SchoolRepository Unit Test', () => {
   let schoolRepository: SchoolRepositoryInterface;
   let dynamodb: DynamodbInterface;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          load: [configuration],
+          isGlobal: true,
+        }),
+      ],
       providers: [
         {
           provide: SCHOOL_REPOSITORY,
@@ -37,6 +46,7 @@ describe('SchoolRepository Unit Test', () => {
     schoolRepository =
       moduleFixture.get<SchoolRepositoryInterface>(SCHOOL_REPOSITORY);
     dynamodb = moduleFixture.get<DynamodbInterface>(DYNAMODB);
+    configService = moduleFixture.get<ConfigService>(ConfigService);
   });
 
   it('repository가 정의되어 있어야만 한다.', () => {
@@ -57,7 +67,7 @@ describe('SchoolRepository Unit Test', () => {
       await schoolRepository.createSchool({ name, region });
 
       expect(putItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Item: {
           PK: expect.any(String),
           SK: 'METADATA',
@@ -89,7 +99,7 @@ describe('SchoolRepository Unit Test', () => {
       await schoolRepository.createNews({ id, title, content });
 
       expect(putItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Item: {
           PK: `SCHOOL#${id}`,
           SK: expect.any(String),
@@ -124,7 +134,7 @@ describe('SchoolRepository Unit Test', () => {
       await schoolRepository.updateNews({ id, newsId, title, content });
 
       expect(updateItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Key: {
           PK: `SCHOOL#${id}`,
           SK: `NEWS#${newsId}`,
@@ -165,7 +175,7 @@ describe('SchoolRepository Unit Test', () => {
       await schoolRepository.deleteNews({ id, newsId });
 
       expect(deleteItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Key: {
           PK: `SCHOOL#${id}`,
           SK: `NEWS#${newsId}`,
@@ -200,7 +210,7 @@ describe('SchoolRepository Unit Test', () => {
       await schoolRepository.getNews({ id, newsId });
 
       expect(getItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Key: {
           PK: `SCHOOL#${id}`,
           SK: `NEWS#${newsId}`,
@@ -253,7 +263,7 @@ describe('SchoolRepository Unit Test', () => {
       await schoolRepository.getSchool(id);
 
       expect(getItemSpy).toBeCalledWith({
-        TableName: 'Classting-v2',
+        TableName: configService.get<string>('dynamodb.tableName'),
         Key: {
           PK: `SCHOOL#${id}`,
           SK: 'METADATA',
