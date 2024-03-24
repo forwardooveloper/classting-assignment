@@ -208,7 +208,7 @@ describe('SchoolRepository Unit Test', () => {
       });
     });
 
-    it('getNews가 호출됐을 때, news 정보가 있다면 해당 정보를 반환해야만 한다.', async () => {
+    it('getNews가 호출됐을 때, news 정보가 GetNewsResult를 반환해야만 한다.', async () => {
       jest.spyOn(dynamodb, 'getItem').mockResolvedValueOnce({
         Item: {
           title: 'title',

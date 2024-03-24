@@ -7,7 +7,7 @@ import { StudentRepositoryInterface } from './student.repository.interface';
 import { STUDENT_REPOSITORY } from '../symbol/student.symbol';
 import { StudentRepository } from './student.repository';
 
-describe('SchoolRepository Unit Test', () => {
+describe('StudentRepository Unit Test', () => {
   let studentRepository: StudentRepositoryInterface;
   let dynamodb: DynamodbInterface;
 
