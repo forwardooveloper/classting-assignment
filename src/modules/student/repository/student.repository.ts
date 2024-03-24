@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { StudentRepositoryInterface } from './student.repository.interface';
-import { DYNAMODB } from 'src/libs/dynamodb/symbol/dynamodb-manager.symbol';
-import { DATE_UTIL } from 'src/libs/date-util/symbol/date-util.symbol';
-import { DateUtilInterface } from 'src/libs/date-util/date-util.interface';
-import { DynamodbInterface } from 'src/libs/dynamodb/dynamodb.interface';
+import { DYNAMODB } from '../../../libs/dynamodb/symbol/dynamodb-manager.symbol';
+import { DATE_UTIL } from '../../../libs/date-util/symbol/date-util.symbol';
+import { DateUtilInterface } from '../../../libs/date-util/date-util.interface';
+import { DynamodbInterface } from '../../../libs/dynamodb/dynamodb.interface';
 import {
   CreateSubscriptionDto,
   DeleteSubscriptionDto,
@@ -59,7 +59,7 @@ export class StudentRepository implements StudentRepositoryInterface {
   public async getSubscriptionList(
     id: string,
   ): Promise<GetSubscriptionListResult[]> {
-    const subscriptions = await this.dynamodb.queryItems({
+    const subscriptions = await this.dynamodb.query({
       TableName: 'Classting-v2',
       KeyConditionExpression: 'PK = :pk',
       ExpressionAttributeValues: {
@@ -94,7 +94,7 @@ export class StudentRepository implements StudentRepositoryInterface {
   public async getSchoolWithNewsList(
     schoolId: string,
   ): Promise<GetSchoolWithNewsListResult> {
-    const schoolWithNewsList = await this.dynamodb.queryItems({
+    const schoolWithNewsList = await this.dynamodb.query({
       TableName: 'Classting-v2',
       IndexName: 'CreatedAtSort',
       KeyConditionExpression: 'PK = :pk',

@@ -34,7 +34,8 @@ describe('SchoolRepository Unit Test', () => {
       ],
     }).compile();
 
-    schoolRepository = moduleFixture.get<SchoolRepository>(SCHOOL_REPOSITORY);
+    schoolRepository =
+      moduleFixture.get<SchoolRepositoryInterface>(SCHOOL_REPOSITORY);
     dynamodb = moduleFixture.get<DynamodbInterface>(DYNAMODB);
   });
 
@@ -217,8 +218,8 @@ describe('SchoolRepository Unit Test', () => {
       });
       const result = await schoolRepository.getNews({ id, newsId });
 
-      expect(result.id).toBe(id);
-      expect(result.newsId).toBe(newsId);
+      expect(result.id).toEqual(id);
+      expect(result.newsId).toEqual(newsId);
       expect(result.title).toBeDefined();
       expect(result.content).toBeDefined();
     });
@@ -270,7 +271,7 @@ describe('SchoolRepository Unit Test', () => {
       });
       const result = await schoolRepository.getSchool(id);
 
-      expect(result.id).toBe(id);
+      expect(result.id).toEqual(id);
       expect(result.name).toBeDefined();
       expect(result.region).toBeDefined();
     });

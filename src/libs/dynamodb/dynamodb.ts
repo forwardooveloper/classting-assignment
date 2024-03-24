@@ -54,7 +54,7 @@ export class Dynamodb implements DynamodbInterface {
     return await client.send(new DeleteCommand(param));
   }
 
-  async queryItems(param: QueryCommandInput): Promise<QueryCommandOutput> {
+  async query(param: QueryCommandInput): Promise<QueryCommandOutput> {
     const client = this.getDynamodbClient();
 
     return await client.send(new QueryCommand(param));
