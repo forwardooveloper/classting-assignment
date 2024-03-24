@@ -23,3 +23,7 @@ export type GetSchoolWithNewsListResult = {
     content: string;
   }[];
 };
+
+export type DeleteSubscriptionResult = {
+  affectedId: string;
+};

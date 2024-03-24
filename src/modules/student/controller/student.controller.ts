@@ -1,6 +1,7 @@
-import { Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Inject, Param, Post } from '@nestjs/common';
 import { StudentControllerInterface } from './student.controller.interface';
 import {
+  DeleteSubscriptionDto,
   GetSchoolWithNewsListDto,
   GetSubscriptionListDto,
   IdDto,
@@ -27,6 +28,11 @@ export class StudentController implements StudentControllerInterface {
       id: dto.id,
       schoolId: dto.schoolId,
     });
+  }
+
+  @Delete(':id/school/:schoolId/subscription')
+  public DeleteSubscriptionDto(@Param() dto: DeleteSubscriptionDto) {
+    return this.service.deleteSubscription(dto);
   }
 
   @Get(':id/subscription/list')

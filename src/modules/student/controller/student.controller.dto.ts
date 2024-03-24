@@ -16,3 +16,8 @@ export class GetSchoolWithNewsListDto extends IdDto {
   @IsString()
   schoolId: string;
 }
+
+export class DeleteSubscriptionDto extends IdDto {
+  @IsString()
+  schoolId: string;
+}
