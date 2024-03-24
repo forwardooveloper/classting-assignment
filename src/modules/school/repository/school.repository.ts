@@ -12,10 +12,10 @@ import {
   GetSchoolResult,
 } from './school.repository.result';
 import { v4 } from 'uuid';
-import { DYNAMODB } from 'src/libs/dynamodb/symbol/dynamodb-manager.symbol';
-import { Dynamodb } from 'src/libs/dynamodb/dynamodb';
-import { DATE_UTIL } from 'src/libs/date-util/symbol/date-util.symbol';
-import { DateUtilInterface } from 'src/libs/date-util/date-util.interface';
+import { DYNAMODB } from '../../../libs/dynamodb/symbol/dynamodb-manager.symbol';
+import { Dynamodb } from '../../../libs/dynamodb/dynamodb';
+import { DATE_UTIL } from '../../../libs/date-util/symbol/date-util.symbol';
+import { DateUtilInterface } from '../../../libs/date-util/date-util.interface';
 
 @Injectable()
 export class SchoolRepository implements SchoolRepositoryInterface {
@@ -54,8 +54,6 @@ export class SchoolRepository implements SchoolRepositoryInterface {
         updatedAt: this.dateUtil.getNowTimestamp(),
       },
     });
-
-    console.log(await this.getNews({ id: dto.id, newsId }));
 
     return { affectedId: newsId };
   }
