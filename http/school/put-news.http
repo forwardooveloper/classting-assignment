@@ -1,8 +1,8 @@
-### PUT /school/:schoolId/news/:newsId
+### PUT /school/:id/news/:newsId
 # 학교 소식 수정 API
 
 # Request Parameter (path)
-# - schoolId: 학교 고유 아이디
+# - id: 학교 고유 아이디
   # - string(mandatory)
 # - newsId: 학교 소식 아이디
   # - string(mandatory)
@@ -18,7 +18,7 @@
 @newsId = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
 
 @title = "뉴스 제목입니다."
-@content = "뉴스 보눈입니다."
+@content = "뉴스 본문입니다."
 
 PUT http://localhost:3000/school/{{schoolId}}/news/{{newsId}}
 Content-Type: application/json

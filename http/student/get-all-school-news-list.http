@@ -1,0 +1,59 @@
+### GET /student/:id/school/all/news
+# 모든 구독 학교 뉴스 리스트 조회API
+
+# Request Parameter (path)
+# - id: 학생 아이디
+  # - string(mandatory)
+
+@id = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
+
+GET http://localhost:3000/student/{{id}}/school/all/news
+
+# Response Example
+# {
+#   "success": true,
+#   "data": [
+#     {
+#       "school": {
+#           "id": "4d784fef-d7aa-44f7-94ba-524328f3e418", //학교 ID
+#           "name": "동안고등학교", // 학교명
+#           "region": "경기도" // 학교 지역
+#       },
+#       "newsList": [
+#         {
+#           "id": "240d809a-078e-44ec-8bc5-0814471bc11d", // 뉴스 ID
+#           "title": "동안고 뉴스-2", // 뉴스 제목
+#           "content": "뉴스2입니다.", // 뉴스 본문
+#           "createdAt": 1711113834 // 생성일
+#         },
+#         {
+#           "id": "35f0cf5a-f618-445e-b8ed-66e74aa1a359",
+#           "title": "동안고 뉴스",
+#           "content": "뉴스입니다.",
+#           "createdAt": 1711113816
+#         }
+#       ] 
+#     },
+#     {
+#       "school": {
+#           "id": "4d784fef-d7aa-44f7-94ba-524328f3e418",
+#           "name": "동안고등학교",
+#           "region": "경기도"
+#       },
+#       "newsList": [
+#         {
+#           "id": "240d809a-078e-44ec-8bc5-0814471bc11d",
+#           "title": "동안고 뉴스-2",
+#           "content": "뉴스2입니다.",
+#           "createdAt": 1711113834 
+#         },
+#         {
+#           "id": "35f0cf5a-f618-445e-b8ed-66e74aa1a359",
+#           "title": "동안고 뉴스",
+#           "content": "뉴스입니다.",
+#           "createdAt": 1711113816
+#         }
+#       ] 
+#     }
+#   ]
+# }

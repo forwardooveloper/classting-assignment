@@ -1,8 +1,8 @@
-### POST /school/:schoolId/news
+### POST /school/:id/news
 # 학교 소식 생성 API
 
 # Request Parameter (path)
-# - schoolId: 학교 고유 아이디
+# - id: 학교 고유 아이디
   # - string(mandatory)
 
 # Request Parameter (application/json body)
@@ -17,7 +17,7 @@
 @title = "뉴스 제목입니다."
 @content = "뉴스 본문입니다."
 
-POST http://localhost:3000/school/{{{schoolId}}}/news
+POST http://localhost:3000/school/{{schoolId}}/news
 Content-Type: application/json
 
 {

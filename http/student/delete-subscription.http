@@ -1,16 +1,16 @@
-### PUT /school/:id/news/:newsId
-# 학교 소식 삭제 API
+### DELETE /student/:id/school/:schoolId/subscription
+# 학교 구독 API
 
 # Request Parameter (path)
-# - id: 학교 고유 아이디
+# - id: 학생 아이디
   # - string(mandatory)
-# - newsId: 학교 소식 아이디
+# - schoolId: 학교 고유 아이디
   # - string(mandatory)
 
+@id = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
 @schoolId = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
-@newsId = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
 
-DELETE http://localhost:3000/school/{{schoolId}}/news/{{newsId}}
+DELETE http://localhost:3000/student/{{id}}/school/{{schoolId}}/subscription
 Content-Type: application/json
 
 # Response Example

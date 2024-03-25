@@ -1,0 +1,30 @@
+### POST /student/:id/subscription/list
+# 학교 구독 리스트 조회API
+
+# Request Parameter (path)
+# - id: 학생 아이디
+  # - string(mandatory)
+
+@id = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
+
+GET http://localhost:3000/student/{{id}}/subscription/list
+
+# Response Example
+# {
+#   "success": true,
+#   "data": {
+#     "id": "12345678-1234-4fbf-b03d-705c1b6f9e31", // 학생 ID
+#     "schoolList": [
+#       {
+#         "schoolId": "4d784fef-d7aa-44f7-94ba-524328f3e418", // 학교 ID
+#         "schoolName": "동안고등학교", // 학교명
+#         "schoolRegion": "경기도" // 학교 지역
+#       },
+#       {
+#         "schoolId": "a9fecd58-991d-4fbf-b03d-705c1b6f9e33",
+#         "schoolName": "백영고등학교",
+#         "schoolRegion": "경기도"
+#       }
+#     ]
+#   }
+# }
