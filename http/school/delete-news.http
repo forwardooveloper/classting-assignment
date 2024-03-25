@@ -1,0 +1,22 @@
+### PUT /school/:schoolId/news/:newsId
+# 학교 소식 삭제 API
+
+# Request Parameter (path)
+# - schoolId: 학교 고유 아이디
+  # - string(mandatory)
+# - newsId: 학교 소식 아이디
+  # - string(mandatory)
+
+@schoolId = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
+@newsId = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
+
+PUT http://localhost:3000/school/{{schoolId}}/news/{{newsId}}
+Content-Type: application/json
+
+# Response Example
+# {
+#   "success": true,
+#   "data": {
+#     "affectedId": "35ebb5a3-1cb1-447a-b67f-b9c333fd9fad"
+#   }
+# }

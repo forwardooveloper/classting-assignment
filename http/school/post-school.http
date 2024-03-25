@@ -1,0 +1,28 @@
+### POST /school
+# 학교 생성 API
+
+# Request Parameter (application/json body)
+# - name: 학교명
+  # - string(mandatory)
+
+# - region: 지역
+  # - string(mandatory)
+
+@name = "경기고등학교"
+@region = "경기도"
+
+POST http://localhost:3000/school
+Content-Type: application/json
+
+{
+    "name": {{name}},
+    "region": {{region}}
+}
+
+# Response Example
+# {
+#   "success": true,
+#   "data": {
+#     "affectedId": "35ebb5a3-1cb1-447a-b67f-b9c333fd9fad"
+#   }
+# }
