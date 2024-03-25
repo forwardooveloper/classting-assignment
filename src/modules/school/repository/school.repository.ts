@@ -80,13 +80,15 @@ export class SchoolRepository implements SchoolRepositoryInterface {
   }
 
   public async deleteNews(dto: DeleteNewsDto): Promise<AffectResult> {
-    await this.dynamodb.deleteItem({
+    const result = await this.dynamodb.deleteItem({
       TableName: this.configService.get<string>('dynamodb.tableName'),
       Key: {
         PK: `SCHOOL#${dto.id}`,
         SK: `NEWS#${dto.newsId}`,
       },
     });
+
+    console.log(result);
 
     return { affectedId: dto.newsId };
   }
@@ -111,6 +113,7 @@ export class SchoolRepository implements SchoolRepositoryInterface {
   }
 
   public async getSchool(id: string): Promise<GetSchoolResult> {
+    console.log(id);
     const school = await this.dynamodb.getItem({
       TableName: this.configService.get<string>('dynamodb.tableName'),
       Key: {

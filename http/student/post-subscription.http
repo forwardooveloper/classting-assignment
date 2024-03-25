@@ -7,8 +7,8 @@
 # - schoolId: 학교 고유 아이디
   # - string(mandatory)
 
-@id = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
-@schoolId = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
+@id = 5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f
+@schoolId = 4bf1cf89-7979-4a4e-aac5-289343699337
 
 POST http://localhost:3000/student/{{id}}/school/{{schoolId}}/subscription
 Content-Type: application/json

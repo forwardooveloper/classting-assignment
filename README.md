@@ -23,7 +23,7 @@ $ docker compose up -d
 2. dynamodb table 생성
 
 ```bash
-$ pnpm create:table
+$ pnpm create:table:local
 ```
 
 3. local run
@@ -51,3 +51,5 @@ $ pnpm test:integration
 ## API Document
 
 http 폴더에 각 API를 호출해볼 수 있는 http 파일을 생성했습니다.
+
+local server 실행 후 테스트 가능합니다.

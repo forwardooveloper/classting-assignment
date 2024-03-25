@@ -14,8 +14,8 @@
 # - content: 뉴스 본문
   # - string(mandatory)
 
-@schoolId = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
-@newsId = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
+@schoolId = 82514c58-b393-4169-9791-7343672e034e
+@newsId = 79e9412b-386f-4885-a95d-42d59976f096
 
 @title = "뉴스 제목입니다."
 @content = "뉴스 본문입니다."

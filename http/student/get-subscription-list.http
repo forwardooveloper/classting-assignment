@@ -5,7 +5,7 @@
 # - id: 학생 아이디
   # - string(mandatory)
 
-@id = "5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f"
+@id = 5f4a514d-1b7b-4b1d-8f8f-2f1b7b4b1d8f
 
 GET http://localhost:3000/student/{{id}}/subscription/list
 
